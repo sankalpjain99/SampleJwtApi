@@ -26,10 +26,26 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
 	JwtRequestFilter filter;
 	
+	private static final String[] AUTH_WHITELIST = {
+			// -- Swagger UI v2
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            // -- Swagger UI v3 (OpenAPI)
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            // -- My Endpoints,
+            "/api/authenticate"
+	};
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().cors().disable()
-			.authorizeRequests().antMatchers("/authenticate").permitAll()
+			.authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll()
 			.anyRequest().authenticated()
 			.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		
