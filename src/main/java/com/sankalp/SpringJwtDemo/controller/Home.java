@@ -1,11 +1,14 @@
 package com.sankalp.SpringJwtDemo.controller;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +21,7 @@ import com.sankalp.SpringJwtDemo.models.AuthenticationResponse;
 import com.sankalp.SpringJwtDemo.services.CustomUserDetailsService;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api")
 public class Home{
 	
@@ -33,6 +37,13 @@ public class Home{
 	@GetMapping("/welcome")
 	public String welcome() {
 		return "Hello World!";
+	}
+	
+	@GetMapping(path="getUser")
+	public ResponseEntity<HashMap<String,String>> getSampleUser(){
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("Name", "Sankalp Jain");
+        return ResponseEntity.ok(map);
 	}
 	
 	@PostMapping("/authenticate")
